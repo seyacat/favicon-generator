@@ -34,7 +34,7 @@ export default defineConfig({
     port: 6061
   },
   build: {
-    outDir: 'docs'
+    outDir: 'dist'
   },
   base: './'
 })
