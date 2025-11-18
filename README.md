@@ -1,1 +1,1 @@
-# favicon-generator
+# favicon-generator!
