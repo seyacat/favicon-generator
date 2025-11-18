@@ -1,6 +1,10 @@
 # Favicon Generator
 
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen)](https://your-username.github.io/favicon-generator)
+
 A Progressive Web App (PWA) built with Vite, TypeScript, and Vue that allows you to convert PNG/JPG images to Windows-compatible .ico files and favicon.ico files.
+
+**Live Demo**: [https://your-username.github.io/favicon-generator](https://your-username.github.io/favicon-generator)
 
 ## Features
 
