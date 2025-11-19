@@ -12,7 +12,8 @@
   "dependencies": {
     "vue": "^3.3.0",
     "vue-router": "^4.2.0",
-    "to-ico": "^1.1.5"
+    "to-ico": "^1.1.5",
+    "jszip": "^3.10.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.0",

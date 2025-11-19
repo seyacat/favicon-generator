@@ -23,19 +23,26 @@
     </div>
 
     <div class="button-group">
-      <button 
-        class="btn btn-primary" 
+      <button
+        class="btn btn-primary"
         @click="generateIco"
         :disabled="!selectedFile"
       >
         Generate .ico File
       </button>
-      <button 
-        class="btn btn-secondary" 
+      <button
+        class="btn btn-secondary"
         @click="generateFavicon"
         :disabled="!selectedFile"
       >
         Generate favicon.ico
+      </button>
+      <button
+        class="btn btn-tertiary"
+        @click="generateAllPwaIcons"
+        :disabled="!selectedFile"
+      >
+        Generate All PWA Icons
       </button>
     </div>
 
@@ -47,6 +54,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import JSZip from 'jszip'
 
 interface IcoFile {
   data: ArrayBuffer
@@ -126,6 +134,99 @@ const generateFavicon = async () => {
   } catch (error) {
     console.error('Error generating favicon:', error)
     showStatus('Error generating favicon.ico file. Please try again.', 'status-error')
+  }
+}
+
+const generateAllPwaIcons = async () => {
+  if (!selectedFile.value) return
+
+  try {
+    showStatus('Generating PWA icons...')
+    
+    // Create canvas from file
+    const canvas = await createCanvasFromFile(selectedFile.value)
+    
+    // Generate all PWA icons
+    const zip = new JSZip()
+    const iconsFolder = zip.folder('pwa-icons')
+    
+    if (!iconsFolder) {
+      throw new Error('Could not create icons folder in ZIP')
+    }
+
+    // PWA icon sizes
+    const pwaSizes = [
+      { name: 'icon-192.png', size: 192 },
+      { name: 'icon-512.png', size: 512 },
+      { name: 'maskable-icon-512.png', size: 512 },
+      { name: 'apple-touch-icon-180.png', size: 180 },
+      { name: 'favicon-32.png', size: 32 },
+      { name: 'favicon-16.png', size: 16 }
+    ]
+
+    // Generate each icon
+    for (const icon of pwaSizes) {
+      const iconCanvas = await resizeCanvas(canvas, icon.size, icon.size)
+      const blob = await canvasToBlob(iconCanvas, 'image/png')
+      iconsFolder.file(icon.name, blob)
+    }
+
+    // Generate manifest.json
+    const manifest = {
+      name: 'My PWA App',
+      short_name: 'MyApp',
+      description: 'My Progressive Web App',
+      start_url: '/',
+      display: 'standalone',
+      background_color: '#ffffff',
+      theme_color: '#000000',
+      icons: [
+        {
+          src: '/pwa-icons/icon-192.png',
+          sizes: '192x192',
+          type: 'image/png'
+        },
+        {
+          src: '/pwa-icons/icon-512.png',
+          sizes: '512x512',
+          type: 'image/png'
+        },
+        {
+          src: '/pwa-icons/maskable-icon-512.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'maskable'
+        }
+      ]
+    }
+
+    iconsFolder.file('manifest.json', JSON.stringify(manifest, null, 2))
+
+    // Generate HTML snippet for iOS icons
+    const htmlSnippet = `<!-- Add these to your HTML head section -->
+<link rel="apple-touch-icon" href="/pwa-icons/apple-touch-icon-180.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/pwa-icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/pwa-icons/favicon-16.png">`
+
+    iconsFolder.file('html-snippet.html', htmlSnippet)
+
+    // Generate ZIP file
+    const zipBlob = await zip.generateAsync({ type: 'blob' })
+    
+    // Download ZIP
+    const url = URL.createObjectURL(zipBlob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = 'pwa-icons.zip'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+    
+    showStatus('All PWA icons generated and downloaded as ZIP!')
+  } catch (error) {
+    console.error('Error generating PWA icons:', error)
+    showStatus('Error generating PWA icons. Please try again.', 'status-error')
   }
 }
 
@@ -263,5 +364,26 @@ const downloadFile = (data: ArrayBuffer, filename: string) => {
   link.click()
   document.body.removeChild(link)
   URL.revokeObjectURL(url)
+}
+
+const resizeCanvas = (sourceCanvas: HTMLCanvasElement, width: number, height: number): Promise<HTMLCanvasElement> => {
+  return new Promise((resolve) => {
+    const canvas = document.createElement('canvas')
+    const ctx = canvas.getContext('2d')!
+    canvas.width = width
+    canvas.height = height
+    
+    // Draw the image scaled to the target size
+    ctx.drawImage(sourceCanvas, 0, 0, width, height)
+    resolve(canvas)
+  })
+}
+
+const canvasToBlob = (canvas: HTMLCanvasElement, type: string = 'image/png'): Promise<Blob> => {
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => {
+      resolve(blob!)
+    }, type)
+  })
 }
 </script>
