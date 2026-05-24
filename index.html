@@ -5,24 +5,39 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Favicon Generator</title>
+    <meta name="theme-color" content="#f8f9fa" />
     <meta name="description" content="Generate Windows-compatible .ico files and favicons from PNG/JPG images">
     <link rel="canonical" href="https://favicon.closer.click/" />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:site_name" content="Closer Click" />
     <meta property="og:title" content="Favicon Generator" />
-    <meta property="og:description" content="Generá favicons e íconos .ico (compatibles con Windows) desde una imagen PNG/JPG. Todo en el navegador." />
+    <meta property="og:description" content="Generate favicons and .ico icons (Windows-compatible) from a PNG/JPG image. Everything in the browser." />
     <meta property="og:url" content="https://favicon.closer.click/" />
     <meta property="og:image" content="https://favicon.closer.click/og.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Favicon Generator" />
-    <meta name="twitter:description" content="Generá favicons e íconos .ico desde una imagen. Todo en el navegador." />
+    <meta name="twitter:description" content="Generate favicons and .ico icons from an image. Everything in the browser." />
     <meta name="twitter:image" content="https://favicon.closer.click/og.jpg" />
     <!-- Analítica cookieless autohosteada (GoatCounter); no cuenta en localhost/LAN. -->
     <script>window.goatcounter={path:function(p){return location.hostname+p}}</script>
     <script data-goatcounter="https://goat.closer.click/count" async src="https://goat.closer.click/count.js"></script>
-  </head>
+      <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Favicon Generator",
+      "url": "https://favicon.closer.click/",
+      "description": "Generate favicons and .ico icons from a PNG/JPG image. Everything in the browser.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "publisher": { "@type": "Organization", "name": "Closer Click", "url": "https://closer.click/" }
+    }
+    </script>
+</head>
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
