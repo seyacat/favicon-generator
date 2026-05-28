@@ -1,10 +1,10 @@
 # Favicon Generator
 
-[![Live App](https://img.shields.io/badge/Live-App-brightgreen)](https://seyacat.github.io/favicon-generator)
+[![Live App](https://img.shields.io/badge/Live-App-brightgreen)](https://closerclick.github.io/favicon-generator)
 
 A Progressive Web App (PWA) built with Vite, TypeScript, and Vue that allows you to convert PNG/JPG images to Windows-compatible .ico files and favicon.ico files.
 
-**Live App**: [https://seyacat.github.io/favicon-generator](https://seyacat.github.io/favicon-generator)
+**Live App**: [https://closerclick.github.io/favicon-generator](https://closerclick.github.io/favicon-generator)
 
 ## Features
 
