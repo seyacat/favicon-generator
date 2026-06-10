@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@closerclick/closer-click-nav": "0.2.0",
-    "@closerclick/closer-click-support": "^0.3.9",
+    "@closerclick/closer-click-support": "0.4.1",
     "jszip": "^3.10.1",
     "to-ico": "^1.1.5",
     "vue": "^3.3.0",
